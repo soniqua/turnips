@@ -369,7 +369,7 @@ const calculateOutput = function (data, first_buy, previous_pattern) {
   const best_day = getSellTracker(normal_list)
   //Sunday is always 0, and should not be used.
   console.log(`${best_day}`)
-  $("#turnip_best_day").html(best_day)
+
 
   $("#output").html(output_possibilities)
 
@@ -491,7 +491,7 @@ function getTodayValue(prices){
   if (isNaN(prices[today-1])){
     return 1
   } else {
-  return prices[today-1]
+  return prices[today]
   }
 }
 
@@ -519,17 +519,21 @@ const getMaxProfit = function(){
   const net_profit = gross_income - estimated_cost
   //console.log(`Net Profit is ${net_profit} Bells`);
   //Set id:
-  if (todays_price > 1){
-    $("#turnip_output").html(`${numberWithCommas(gross_income)} Bells <br/><br/> at ${todays_price} Bells/turnip <br/><br/>(${Math.floor(turnip_ratio)}% ROI on ${numberWithCommas(estimated_cost)} Bells)`)
-  } else {
-    $("#turnip_output").html(`No price for today!`)
-  }
-  //Set color:
-  if (net_profit <= 0){
-    $("#turnip_output").css('color', 'red');
-  } else {
-    $("#turnip_output").css('color', 'green');
-  }
+  if (new Date().getHours() < 22 && new Date().getHours() > 7){
+    if (todays_price > 1){
+        $("#turnip_output").html(`${numberWithCommas(gross_income)} Bells <br/><br/> at ${todays_price} Bells/turnip <br/><br/>(${Math.floor(turnip_ratio)}% ROI on ${numberWithCommas(estimated_cost)} Bells)`)
+      } else {
+        $("#turnip_output").html(`No price for today!`)
+      }
+    //Set color:
+    if (net_profit <= 0){
+      $("#turnip_output").css('color', 'red');
+      } else {
+        $("#turnip_output").css('color', 'green');
+      }
+    } else {
+      console.log("shop ded")
+    }
 }
 
 const update = function () {
