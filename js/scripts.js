@@ -247,7 +247,7 @@ const getPreviousFromQuery = function () {
     return null;
   }
 
-  console.log("Using data from query.");
+  //console.log("Using data from query.");
   window.populated_from_query = true;
   return [
     getFirstBuyStateFromQuery("first"),
@@ -363,13 +363,13 @@ const calculateOutput = function (data, first_buy, previous_pattern) {
     normal_list[i]=sell_tracker[i]*(price_tracker[i]/max_tracker)
   }
 
-  console.log(normal_list)
-  console.log(normal_list.indexOf(Math.max(...normal_list)));
+  //console.log(normal_list)
+  //console.log(normal_list.indexOf(Math.max(...normal_list)));
   //This only forecasts expected days, unless I fux the above
   const best_day = getSellTracker(normal_list)
   //Sunday is always 0, and should not be used.
-  console.log(`${best_day}`)
-
+  //console.log(`${best_day}`)
+  $("#turnip_best_day").html(best_day)
 
   $("#output").html(output_possibilities)
 
@@ -378,7 +378,7 @@ const calculateOutput = function (data, first_buy, previous_pattern) {
 
 function getSellTracker(data){
   let max = data.indexOf(Math.max(...data));
-  if (max === 0){
+  if (max <= 0){
     //this is a race condition,
   } else {
   //Monday AM is 1, PM is 2, etc.
@@ -393,13 +393,13 @@ function getSellTracker(data){
   }
   //Does a price already exist for a day, and is that day in the past?
   if (max < today){
-    console.log(`${max}`, `${today}`)
-    console.log("In the past")
+    //console.log(`${max}`, `${today}`)
+    //console.log("In the past")
     data[max] = 0
     return getSellTracker(data)
   } else {
-    console.log(`${max}`, `${today}`)
-    console.log("Legit")
+    //console.log(`${max}`, `${today}`)
+    //console.log("Legit")
     return times[max]
   }
 }
@@ -505,19 +505,19 @@ const getMaxProfit = function(){
   //Check if the current day and period has a valid entry.
   //Logic here is that each day has two divisions (AM, PM). Each day is therefore multiplied by two, and if pre-noon the day has -1.
   let todays_price = getTodayValue(raw_prices)
-  console.log(`Today's price is ${todays_price}`);
+  //console.log(`Today's price is ${todays_price}`);
   const turnip_count = getTurnipCount();
   const buy_price = parseInt(buy_input.val());
   //Filter `NaN` from array;
   //Get ratio;
   const turnip_ratio = (todays_price / buy_price * 100);
-  //console.log(`Turnip Profit/Loss ratio is ${turnip_ratio} per turnip`);
+  ////console.log(`Turnip Profit/Loss ratio is ${turnip_ratio} per turnip`);
   const gross_income= (turnip_count * todays_price);
-  //console.log(`Gross income is ${gross_income}`);
+  ////console.log(`Gross income is ${gross_income}`);
   const estimated_cost = (buy_price * turnip_count);
-  //console.log(`Estimated cost is ${estimated_cost}`);
+  ////console.log(`Estimated cost is ${estimated_cost}`);
   const net_profit = gross_income - estimated_cost
-  //console.log(`Net Profit is ${net_profit} Bells`);
+  ////console.log(`Net Profit is ${net_profit} Bells`);
   //Set id:
   if (new Date().getHours() < 22 && new Date().getHours() > 7){
     if (todays_price > 1){
@@ -532,7 +532,8 @@ const getMaxProfit = function(){
         $("#turnip_output").css('color', 'green');
       }
     } else {
-      console.log("shop ded")
+      //console.log("shop ded")
+      $("#turnip_output").html(`Nook's Cranny is currently closed!`)
     }
 }
 
