@@ -95,6 +95,24 @@ const initialize = function () {
 
   $("#permalink-btn").on("click", copyPermalink)
 
+  $("#stats").on("click", showStats)
+
+  $("#turnipCount").blur(function(){
+    let position = document.getElementById("turnipCount").getBoundingClientRect()
+    let options = {
+      particleCount: 30,
+      origin: {
+        x : 0.5,
+        y: (position.y/window.innerHeight)
+      },
+      ticks: 75,
+      gravity: 2,
+      colors: ["FFAA00"],
+      shapes: ["square"]
+    }
+    window.confetti(options);
+  })
+
   $("#reset").on("click", function () {
     if (window.confirm(i18next.t("prices.reset-warning"))) {
       sell_inputs.forEach(input => input.value = '')
@@ -302,6 +320,8 @@ const calculateOutput = function (data, first_buy, previous_pattern) {
   previous_pattern_number = ""
   //define an empty object and use this to track which day is potentially best:
   var sell_tracker = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+  var price_tracker = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+  var max_tracker = [];
   for (let poss of analyzed_possibilities) {
     var tracker_index = 0
     var out_line = "<tr><td class='table-pattern'>" + poss.pattern_description + "</td>"
@@ -319,6 +339,10 @@ const calculateOutput = function (data, first_buy, previous_pattern) {
       if (price_class === "range1"){
         //this price is the best class, and should be tracked:
         sell_tracker[tracker_index] = (sell_tracker[tracker_index] + 1)
+        max_tracker = poss.weekMax
+        if (day.max > price_tracker[tracker_index]){
+          price_tracker[tracker_index] = day.max
+        }
       }
       tracker_index = (tracker_index + 1)
       if (day.min !== day.max) {
@@ -334,9 +358,15 @@ const calculateOutput = function (data, first_buy, previous_pattern) {
     output_possibilities += out_line
   }
 
-  console.log(sell_tracker)
+  let normal_list=[];
+  for (i=0; i<14; i++) {
+    normal_list[i]=sell_tracker[i]*(price_tracker[i]/max_tracker)
+  }
+
+  console.log(normal_list)
+  console.log(normal_list.indexOf(Math.max(...normal_list)));
   //This only forecasts expected days, unless I fux the above
-  const best_day = getSellTracker(sell_tracker)
+  const best_day = getSellTracker(normal_list)
   //Sunday is always 0, and should not be used.
   console.log(`${best_day}`)
   $("#turnip_best_day").html(best_day)
@@ -348,6 +378,9 @@ const calculateOutput = function (data, first_buy, previous_pattern) {
 
 function getSellTracker(data){
   let max = data.indexOf(Math.max(...data));
+  if (max === 0){
+    //this is a race condition,
+  } else {
   //Monday AM is 1, PM is 2, etc.
   const times = ["Sunday", "Monday AM", "Monday PM", "Tuesday AM", "Tuesday PM", "Wednesday AM", "Wednesday PM", "Thursday AM", "Thursday PM", "Friday AM", "Friday PM", "Saturday AM", "Saturday PM"]
   //If today want to change message:
@@ -369,6 +402,7 @@ function getSellTracker(data){
     console.log("Legit")
     return times[max]
   }
+}
 }
 }
 
@@ -409,6 +443,21 @@ const copyPermalink = function () {
   flashMessage(i18next.t("prices.permalink-copied"));
 }
 
+function hideOrShow (element){
+  if (element.style.display == ""){
+    element.style.display = "block"
+  } else {
+    element.style.display= ""
+  }
+}
+
+const showStats = function(){
+  let graph = document.getElementsByClassName("chart-wrapper")
+  let table = document.getElementsByClassName("table-wrapper")
+  hideOrShow(graph[0]);
+  hideOrShow(table[0]);
+}
+
 const flashMessage = function(message) {
   snackbar.text(message);
   snackbar.addClass('show');
@@ -427,7 +476,6 @@ function checkEmpty(price){
 
 function isMorning(){
   const hours = new Date().getHours();
-  const minutes = new Date().getMinutes();
   if (hours <= 12){
     return true
   } else {
@@ -471,7 +519,11 @@ const getMaxProfit = function(){
   const net_profit = gross_income - estimated_cost
   //console.log(`Net Profit is ${net_profit} Bells`);
   //Set id:
-  $("#turnip_output").html(`${numberWithCommas(gross_income)} Bells (${Math.floor(turnip_ratio)}% ROI) at ${todays_price}Bells/turnip`)
+  if (todays_price > 1){
+    $("#turnip_output").html(`${numberWithCommas(gross_income)} Bells <br/><br/> at ${todays_price} Bells/turnip <br/><br/>(${Math.floor(turnip_ratio)}% ROI on ${numberWithCommas(estimated_cost)} Bells)`)
+  } else {
+    $("#turnip_output").html(`No price for today!`)
+  }
   //Set color:
   if (net_profit <= 0){
     $("#turnip_output").css('color', 'red');
