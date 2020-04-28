@@ -488,10 +488,10 @@ function getTodayValue(prices){
   if (isMorning()){
     today = today - 1
   }
-  if (isNaN(prices[today-1])){
+  if (isNaN(prices[today - 1])){
     return 1
   } else {
-  return prices[today]
+  return prices[today - 1]
   }
 }
 
@@ -523,6 +523,7 @@ const getMaxProfit = function(){
     if (todays_price > 1){
         $("#turnip_output").html(`${numberWithCommas(gross_income)} Bells <br/><br/> at ${todays_price} Bells/turnip <br/><br/>(${Math.floor(turnip_ratio)}% ROI on ${numberWithCommas(estimated_cost)} Bells)`)
       } else {
+        console.log(todays_price)
         $("#turnip_output").html(`No price for today!`)
       }
     //Set color:

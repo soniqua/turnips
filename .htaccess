@@ -1,0 +1,13 @@
+Header set X-Content-Type-Options "nosniff"
+Header set X-Frame-Options "DENY"
+Header set X-XSS-Protection "1; mode=block"
+Header set Access-Control-Allow-Origin "*"
+
+<IfModule mod_headers.c>
+  <filesMatch "\.(otf|ttf|woff[2]?)$">
+    Header set Cache-Control "public"
+  </filesMatch>
+  <filesMatch "\.(html|js|css)$">
+    Header set Cache-Control "no-store, must-revalidate, max-age=0"
+  </filesMatch>
+</IfModule>

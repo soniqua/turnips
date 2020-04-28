@@ -6,6 +6,13 @@ const precacheFiles = [
   "/js/scripts.js",
   "/css/styles.css",
   "https://code.jquery.com/jquery-3.4.1.min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/i18next/19.4.2/i18next.min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/i18next-xhr-backend/3.2.2/i18nextXHRBackend.min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/i18next-browser-languagedetector/4.0.2/i18nextBrowserLanguageDetector.min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/jquery-i18next/1.2.1/jquery-i18next.min.js",
+  "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js",
+  "https://cdn.jsdelivr.net/npm/canvas-confetti@1.2.0/dist/confetti.browser.min.js"
 ];
 
 self.addEventListener("install", function (event) {
