@@ -32,23 +32,7 @@
 
   <div class="nook-phone">
     <img class="nookling" src="img/nookling.png">
-    <h1>Turnip Prophet</h1>
-    <h2>Extra Saucy Edition</h2>
-
-    <div>
-      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-        viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
-        <defs>
-          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-        </defs>
-        <g class="parallax">
-          <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.6" />
-          <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.4)" />
-          <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.2)" />
-          <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
-        </g>
-      </svg>
-    </div>
+    <h1>Turnip Prophet 2.0</h1>
 
     <div class="nook-phone-center">
 
@@ -178,15 +162,14 @@
         </div>
       </form>
 
-
       <h2 data-i18n="output.title"></h2>
 
       <div class="form__flex">
-        <div class="form__row">
+        <div id="best_sell" class="form__row">
           <h6 data-i18n="turnips.best_day"></h6>
           <h3 id="turnip_best_day"></h3>
         </div>
-        <div class="form__row">
+        <div id="sell_now" class="form__row">
           <h6 data-i18n="turnips.output"></h6>
           <h3 id="turnip_output" style="text-align: center"></h3>
         </div>
@@ -284,26 +267,26 @@
   <script src="js/translations.js"></script>
   <script src="js/contributors.js"></script>
   <script>
-    // Check compatibility for the browser we're running this in
-    if ("serviceWorker" in navigator) {
-      if (navigator.serviceWorker.controller) {
-        console.log(
-          "[PWA] Service Worker already found, skipping register"
-        );
-      } else {
-        // Register the service worker
-        navigator.serviceWorker
-          .register("/service-worker.js", {
-            scope: "./",
-          })
-          .then(function (reg) {
-            console.log(
-              "[PWA] Service worker has been registered for scope: " +
-                reg.scope
-            );
-          });
-      }
-    }
+    // // Check compatibility for the browser we're running this in
+    // if ("serviceWorker" in navigator) {
+    //   if (navigator.serviceWorker.controller) {
+    //     console.log(
+    //       "[PWA] Service Worker already found, skipping register"
+    //     );
+    //   } else {
+    //     // Register the service worker
+    //     navigator.serviceWorker
+    //       .register("/service-worker.js", {
+    //         scope: "./",
+    //       })
+    //       .then(function (reg) {
+    //         console.log(
+    //           "[PWA] Service worker has been registered for scope: " +
+    //             reg.scope
+    //         );
+    //       });
+    //   }
+    // }
   </script>
 </body>
 </html>

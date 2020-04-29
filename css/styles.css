@@ -436,28 +436,10 @@ input[type=number] {
 }
 
 .nookling {
-  animation: bounce 0.05s infinite alternate;
-  -webkit-animation: bounce 0.05s infinite alternate;
   width: 20%;
   position: absolute;
-  max-width: 90px;
+  max-width: 60px;
   margin-left: 20px;
-}
-@keyframes bounce {
-  from {
-    transform: translateY(0px);
-  }
-  to {
-    transform: translateY(-5px);
-  }
-}
-@-webkit-keyframes bounce {
-  from {
-    transform: translateY(0px);
-  }
-  to {
-    transform: translateY(-5px);
-  }
 }
 
 .darkmode--activated #turnipTable td.range0 {
