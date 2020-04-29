@@ -1,4 +1,4 @@
-//Reusable Fields
+//console.log("//Reusable Fields
 const getSellFields = function () {
   let fields = []
   for (var i = 2; i < 14; i++) {
@@ -94,6 +94,8 @@ const initialize = function () {
   $(document).trigger("input");
 
   $("#permalink-btn").on("click", copyPermalink)
+
+  $("#sold_now").on("click", sellTurnips)
 
   $("#stats").on("click", showStats)
 
@@ -363,7 +365,7 @@ const calculateOutput = function (data, first_buy, previous_pattern) {
     normal_list[i]=sell_tracker[i]*(price_tracker[i]/max_tracker)
   }
 
-  console.log("get best day")
+  //console.log("get best day")
   const best_day = getSellTracker(normal_list)
   //Sunday is always 0, and should not be used.
   $("#turnip_best_day").html(best_day)
@@ -373,7 +375,7 @@ const calculateOutput = function (data, first_buy, previous_pattern) {
   update_chart(data, analyzed_possibilities);
 }
 
-function getSellTracker(data){
+const getSellTracker = function (data){
   let max = data.indexOf(Math.max(...data));
   if (max <= 0){
     hideOrShow(document.getElementById("sell_now"),"hide");
@@ -389,7 +391,6 @@ function getSellTracker(data){
   if (isMorning()){
     today = today -1
   }
-  console.log(data)
   //Does a price already exist for a day, and is that day in the past?
   if (max < today){
     // console.log(`${max}`, `${today}`)
@@ -447,28 +448,37 @@ const copyPermalink = function () {
   flashMessage(i18next.t("prices.permalink-copied"));
 }
 
+const sellTurnips = function () {
+  //Reset turnips to 0
+  flashMessage("Resetting turnip count to 0")
+  turnip_input.val(0);
+  window.focus();
+  window.scrollTo(0,0);
+  update();
+}
+
 function hideOrShow (element, fn){
   if (!fn){
   if (element.style.display == ""){
-    console.log(`showing ${element.id}`)
+    //console.log(`showing ${element.id}`)
     element.style.display = "block"
   } else {
     element.style.display= ""
-    console.log(`hiding ${element.id}`)
+    //console.log(`hiding ${element.id}`)
   }
 } else {
   switch (fn){
     case "show":
       element.style.display="block"
-      console.log(`showing ${element.id}`)
+      //console.log(`showing ${element.id}`)
       break;
     case "hide":
       element.style.display="none"
-      console.log(`hiding ${element.id}`)
+      //console.log(`hiding ${element.id}`)
       break;
     default:
       element.style.display="block"
-      console.log(`showing ${element.id}`)
+      //console.log(`showing ${element.id}`)
       break;
   }
 
